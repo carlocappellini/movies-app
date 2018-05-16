@@ -11,6 +11,10 @@ sayHello('World');
 const getMovies = require('./api.js');
 
 
+
+
+
+
 function showAllMovies() {
     table();
     getMovies().then((movies) => {
@@ -18,6 +22,7 @@ function showAllMovies() {
         document.getElementById("loading").innerHTML = 'here are the movies';
         movies.forEach(({title, rating}) => {
             displayTableMovies(title, rating);
+
 
             console.log(` ${title} - rating: ${rating}`);
 
@@ -29,12 +34,27 @@ function showAllMovies() {
     });
 }
 
+
+
+
+
+
+
+
 showAllMovies();
+
+
+
+
 
 const header = new Headers({
     'Accept': 'application/json',
     'Content-Type': 'application/json'
 });
+
+
+
+
 
 
 function addMovie() {
@@ -58,19 +78,19 @@ function addMovie() {
         fetch("/api/movies", fetchOptions)
             .then((response) => console.log(response.json()))
         displayTableMovies(movieTitle, movieRating)
-
-
-
     }
 
 }
+
+
+
+
 
 document.getElementById("sub").addEventListener("click", addMovie)
 
 
 function table() {
     document.getElementById("movie-list").innerHTML = `<tr><th>Movie Title</th><th>Movie Rating</th></tr>`
-
 
 }
 
@@ -79,32 +99,100 @@ function displayTableMovies(title, rating) {
 
 }
 
+
+
+function hide(x) {
+document.getElementById(x).setAttribute("hidden", "true").style.display = "none"
+
+}
+
+function unHide(x) {
+    document.getElementById(x).removeAttribute("hidden")
+    document.getElementById(x).style.display = "initial";
+
+}
+
+function cnfirm() {
+    document.getElementById("confirm").innerHTML += "delete this file?"
+
+}
+function addMovieToDelete(title, id) {
+    document.getElementById("delete-movie").innerHTML +=  `<option value=${id}>${title}</option>`
+
+
+}
+function movieDeletedHeading(){
+    document.getElementById("heading").innerHTML = "delete a movie"
+}
+
+
+
+
+
+
 function deleteButton() {
+
+
+
     let movieToDeleteId = document.getElementById("delete-movie").value;
     let fetchOptions = {
         method: "DELETE",
         headers: header
     };
+
     fetch(`/api/movies/${movieToDeleteId}`, fetchOptions).then(() => {
+
         document.getElementById("movie-list").innerHTML = "";
-        unHide("movie-list-container");
-        reHide("delete-form");
-        unHide("new-movie-form");
-        unHide("delete-a-movie");
-        unHide("edit-button");
-        reHide("cancel-button");
-        disableButton("delete-this-movie")
+        movieDeletedHeading();
+
     })
         .then(() => {
-            displayAllMovies()
+
+            showAllMovies()
+
         })
-    // .then(()=>changeHelloAgain());
 }
 
+
+
+
+
+
+
+
+
+function deleteButtonDialog() {
+
+
+
+    getMovies().then((movies) => {
+        document.getElementById("delete-movie").innerHTML = "";
+
+
+        movies.forEach(({title, id}) => {
+            addMovieToDelete(title, id)
+        });
+        document.getElementById("delete-this-movie")
+    }).catch((error) => {
+
+        console.log(error)
+    } )
+
+}
+
+
+
+
+
+
+
+
+
 document.getElementById("delete-this-movie").addEventListener("click", deleteButton);
-document.getElementById("delete-this-movie").addEventListener("click", function () {
-    movieDeleted();
-    setInterval(changeHelloAgain, 1000)
+
+document.getElementById("delete-this-movie").addEventListener("click", function(){
+    movieDeletedHeading();
+    //event listener for delete a movie button
+    document.getElementById("delete-a-movie").addEventListener("click", deleteButtonDialog);
+
 });
-
-

@@ -19,8 +19,8 @@
     </table>
 
 
-    <h5>add a movie</h5>
-    <form method="post" action=''>
+    <h5 id="heading">add a movie</h5>
+    <form method="post" action='' id="new-movie-form">
         <input type="text" id="title">
         <select name="rating" id="rating">
             <option value="1">1</option>
@@ -34,11 +34,11 @@
 
     <button type="button" id="delete-a-movie">Delete a Movie</button>
 
-    <form action="" id="delete-form" hidden>
-        <select name="delete" id="delete-movie">
-        </select>
-        <button type="button" id="delete-this-movie" class="set-back-to-normal" >Delete This Movie</button>
+    <form action="" id="delete-form">
+        <span id="confirm"></span> <select name="delete" id="delete-movie"></select>
+      <button type="button" id="delete-this-movie" class="set-back-to-normal" >Delete This Movie</button>
     </form>
+
 </div>
 
 <script src="/main.js"></script>
