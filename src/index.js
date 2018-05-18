@@ -75,6 +75,8 @@ function addMovie() {
         fetch("/api/movies", fetchOptions)
             .then((response) => console.log(response.json()))
         addMovieToHtml(movieTitle, movieRating)
+        movieAdded()
+        setTimeout(hello, 2000)
 
 
     }
@@ -84,11 +86,8 @@ function addMovie() {
 
 
 document.getElementById("sub").addEventListener("click", addMovie)
-document.getElementById("sub").addEventListener("click", function () {
-    movieAdded()
-    setInterval(hello, 2000)
 
-})
+
 
 
 
@@ -141,12 +140,14 @@ function addMovieToDelete(title, id) {
 
 
 function deleteButtonDialog() {
+    unHide("cancel-button")
     hide("edit-button")
     hide("delete-a-movie");
     hide("new-movie-form");
     hide("movie-list-container")
     unHide("delete-form");
     unHide("delete-this-movie");
+
 
     getMovies().then((movies) => {
         document.getElementById("delete-movie").innerHTML = "";
@@ -191,6 +192,7 @@ function deleteButton() {
         unHide("new-movie-form");
         unHide("delete-a-movie");
         unHide("edit-button");
+        hide("cancel-button");
         disableButton("delete-this-movie")
 
 
@@ -206,7 +208,7 @@ document.getElementById("delete-this-movie").addEventListener("click", deleteBut
 
 document.getElementById("delete-this-movie").addEventListener("click", function(){
     movieDeleted()
-    setInterval(hello,3000)
+    setInterval(hello,2000)
     //event listener for delete a movie button
 
 });
@@ -230,6 +232,8 @@ function addMovieToEdit(title, id){
 
 
 function editButton() {
+    unHide("cancel-button")
+
     hide("delete-a-movie");
     hide("movie-list-container");
     hide("new-movie-form");
@@ -250,19 +254,22 @@ function editButton() {
     });
 }
 
-document.getElementById("edit-button").addEventListener("click",function () {
-    editAMovieMsg()
-})
+document.getElementById("edit-button").addEventListener("click",editAMovieMsg
+);
+
+// document.getElementById("edit-button").addEventListener("click",function () {
+//     editAMovieMsg()
+// })
 
 document.getElementById("edit-button").addEventListener("click", editButton);
 
 
 
 function editAMovieMsg() {
-    document.getElementById("heading").innerHTML = "edit a Movie"
+    document.getElementById("heading").innerHTML = "Edit a Movie"
 }
 function editThisMovieMsg() {
-    document.getElementById("heading").innerHTML = "edit this Movie"
+    document.getElementById("heading").innerHTML = "Edit this Movie"
 }
 
 function movieEditedMsg() {
@@ -272,12 +279,11 @@ function movieEditedMsg() {
 
 
 function editThisMovie(){
-    unHide("edit-another");
+
     hide("edit-form");
     hide("edit-this-movie");
     unHide("edit-submit-form");
     disableButton("edit-this-movie");
-    enableButton("confirm-edit-button")
     let movieToEditId= (document.getElementById("edit-movie").value);
     let movieToEditIndex= movieToEditId -1;
     console.log(movieToEditIndex);
@@ -293,12 +299,16 @@ function editThisMovie(){
 }
 document.getElementById("edit-this-movie").addEventListener("click",function () {
     editThisMovieMsg()
+
 })
 
 document.getElementById("edit-this-movie").addEventListener("click", editThisMovie);
 
 
+function cancelled() {
+    document.getElementById('heading').innerHTML = "Cancelled"
 
+}
 
 function submitEditForm() {
     let editedMovieTitle = document.getElementById("edit-title").value;
@@ -313,16 +323,17 @@ function submitEditForm() {
     };
     fetch(`/api/movies/${movieToEditId}`,fetchOptions).then(()=>{
         document.getElementById("movie-list").innerHTML = "";
+        unHide("cancel-button")
+
         unHide("movie-list-container");
         hide("edit-submit-form");
         unHide("new-movie-form");
         unHide("edit-button");
         unHide("delete-a-movie");
-        hide("edit-another");
         disableButton("confirm-edit-button")
 
     }).then(()=>{showAllMovies()});
-    setInterval(hello, 2000)
+
 
 }
 
@@ -330,6 +341,7 @@ document.getElementById("confirm-edit-button").addEventListener("click", submitE
 
 document.getElementById("confirm-edit-button").addEventListener("click", function () {
     movieEditedMsg()
+    setInterval(hello, 2000)
 });
 
 function cancelButton() {
@@ -338,15 +350,13 @@ function cancelButton() {
     unHide("new-movie-form");
     unHide("delete-a-movie");
     unHide("edit-button");
-    // hide("cancel-button");
+    hide("cancel-button");
     hide("edit-form");
     hide("edit-submit-form");
-    hide("edit-another");
     disableButton("confirm-edit-button");
     disableButton("edit-this-movie");
     disableButton("delete-this-movie");
-    hello()
-
+hello()
 }
 
 
@@ -355,4 +365,10 @@ function cancelButton() {
 document.getElementById("cancel-button").addEventListener("click",cancelButton);
 
 
+
+document.getElementById("cancel-button").addEventListener("click",function () {
+    cancelled()
+
+    setInterval(hello, 500)
+});
 
