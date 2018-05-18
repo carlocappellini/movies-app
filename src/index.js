@@ -332,10 +332,27 @@ document.getElementById("confirm-edit-button").addEventListener("click", functio
     movieEditedMsg()
 });
 
+function cancelButton() {
+    unHide("movie-list-container");
+    hide("delete-form");
+    unHide("new-movie-form");
+    unHide("delete-a-movie");
+    unHide("edit-button");
+    // hide("cancel-button");
+    hide("edit-form");
+    hide("edit-submit-form");
+    hide("edit-another");
+    disableButton("confirm-edit-button");
+    disableButton("edit-this-movie");
+    disableButton("delete-this-movie");
+    hello()
+
+}
 
 
 
 
+document.getElementById("cancel-button").addEventListener("click",cancelButton);
 
 
 
