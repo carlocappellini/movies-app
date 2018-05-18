@@ -17,17 +17,13 @@ function showAllMovies() {
     table();
     getMovies().then((movies) => {
         console.log('Here are all the movies:');
-        document.getElementById("loading").innerHTML = 'here are the movies';
+        document.getElementById("loading").innerHTML = 'Here are all the movies:'
+        console.log()
         movies.forEach(({title, rating}) => {
-            displayTableMovies(title, rating);
-
-
-            console.log(` ${title} - rating: ${rating}`);
-
-
+            addMovieToHtml(title, rating)
         });
     }).catch((error) => {
-        alert('Oh no! Something went wrong.\nCheck the console for details.')
+        alert('Oh no! Something went wrong.\nCheck the console for details.');
         console.log(error);
     });
 }
@@ -45,15 +41,18 @@ const header = new Headers({
 
 
 
-function displayTableMovies(title, rating) {
-    document.getElementById("movie-list").innerHTML += `<tr><td>${title}</td><td>rating: ${rating}</td></tr>`
-
+function addMovieToHtml( title, rating){
+    document.getElementById("movie-list").innerHTML +=`<tr><td>${title}</td><td>rating: ${rating}</td></tr>`
 }
 function table() {
     document.getElementById("movie-list").innerHTML = `<tr><th>Movie Title</th><th>Movie Rating</th></tr>`
 
 }
 
+
+function movieAdded() {
+    document.getElementById("heading").innerHTML = "Movie Added"
+}
 
 function addMovie() {
     let movieTitle = document.getElementById("title").value;
@@ -75,7 +74,7 @@ function addMovie() {
         document.getElementById("rating").value = "1";
         fetch("/api/movies", fetchOptions)
             .then((response) => console.log(response.json()))
-        displayTableMovies(movieTitle, movieRating)
+        addMovieToHtml(movieTitle, movieRating)
 
 
     }
@@ -85,6 +84,11 @@ function addMovie() {
 
 
 document.getElementById("sub").addEventListener("click", addMovie)
+document.getElementById("sub").addEventListener("click", function () {
+    movieAdded()
+    setInterval(hello, 2000)
+
+})
 
 
 
@@ -92,15 +96,18 @@ document.getElementById("sub").addEventListener("click", addMovie)
 
 
 
-function unHide(id) {
-    document.getElementById(id).removeAttribute("hidden");
-    document.getElementById(id).style.display = "initial";
+function unHide(elementId) {
+
+    document.getElementById(elementId).hidden = false;
+    document.getElementById(elementId).style.display = "initial";
+
+
 }
 
 
-function hide(id) {
-    document.getElementById(id).setAttribute("hidden", "true");
-    document.getElementById(id).style.display = "none";
+function hide(elementId) {
+    document.getElementById(elementId).setAttribute("hidden", "true");
+    document.getElementById(elementId).style.display = "none";
 }
 
 
@@ -134,6 +141,7 @@ function addMovieToDelete(title, id) {
 
 
 function deleteButtonDialog() {
+    hide("edit-button")
     hide("delete-a-movie");
     hide("new-movie-form");
     hide("movie-list-container")
@@ -178,13 +186,13 @@ function deleteButton() {
     fetch(`/api/movies/${movieToDeleteId}`, fetchOptions).then(() => {
 
         document.getElementById("movie-list").innerHTML = "";
-        hide("movie-list-container");
+        unHide("movie-list-container");
         hide("delete-form");
         unHide("new-movie-form");
         unHide("delete-a-movie");
         unHide("edit-button");
-        hide("cancel-button");
         disableButton("delete-this-movie")
+
 
     })
 
@@ -198,7 +206,7 @@ document.getElementById("delete-this-movie").addEventListener("click", deleteBut
 
 document.getElementById("delete-this-movie").addEventListener("click", function(){
     movieDeleted()
-    setInterval(hello,1000)
+    setInterval(hello,3000)
     //event listener for delete a movie button
 
 });
@@ -228,25 +236,38 @@ function editButton() {
     hide("edit-button");
     unHide("edit-form");
     unHide("edit-this-movie");
-    unHide("cancel-button");
+    enableButton("edit-this-movie");
     getMovies().then((movies) => {
         console.log('Editing movies...');
         document.getElementById("edit-movie").innerHTML = "";
         movies.forEach(({title, id}) => {
             addMovieToEdit(title, id)
         });
-    }).then(()=>enableButton("edit-this-movie")).catch((error) => {
-
+    }).then(()=>{enableButton("edit-this-movie")})
+        .catch((error) => {
         alert('Oh no! Something went wrong.\nCheck the console for details.');
         console.log(error);
     });
 }
 
-
+document.getElementById("edit-button").addEventListener("click",function () {
+    editAMovieMsg()
+})
 
 document.getElementById("edit-button").addEventListener("click", editButton);
 
 
+
+function editAMovieMsg() {
+    document.getElementById("heading").innerHTML = "edit a Movie"
+}
+function editThisMovieMsg() {
+    document.getElementById("heading").innerHTML = "edit this Movie"
+}
+
+function movieEditedMsg() {
+    document.getElementById("heading").innerHTML = " Movie Edited"
+}
 
 
 
@@ -258,7 +279,7 @@ function editThisMovie(){
     disableButton("edit-this-movie");
     enableButton("confirm-edit-button")
     let movieToEditId= (document.getElementById("edit-movie").value);
-    let movieToEditIndex= movieToEditId-1;
+    let movieToEditIndex= movieToEditId -1;
     console.log(movieToEditIndex);
     getMovies(movieToEditId).then((movies)=>{
         console.log(movies);
@@ -270,6 +291,12 @@ function editThisMovie(){
     }).then(()=>enableButton("confirm-edit-button"));
 
 }
+document.getElementById("edit-this-movie").addEventListener("click",function () {
+    editThisMovieMsg()
+})
+
+document.getElementById("edit-this-movie").addEventListener("click", editThisMovie);
+
 
 
 
@@ -291,18 +318,20 @@ function submitEditForm() {
         unHide("new-movie-form");
         unHide("edit-button");
         unHide("delete-a-movie");
-        hide("cancel-button");
         hide("edit-another");
         disableButton("confirm-edit-button")
 
     }).then(()=>{showAllMovies()});
+    setInterval(hello, 2000)
 
 }
 
 document.getElementById("confirm-edit-button").addEventListener("click", submitEditForm);
 
+document.getElementById("confirm-edit-button").addEventListener("click", function () {
+    movieEditedMsg()
+});
 
-document.getElementById("edit-this-movie").addEventListener("click", editThisMovie);
 
 
 

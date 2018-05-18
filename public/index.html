@@ -2,77 +2,122 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>My Application</title>
     <link rel="stylesheet" href="/style.css"/>
+    <link rel="stylesheet" src="https://code.jquery.com/ui/1.12.1/themes/excite-bike/jquery-ui.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+        .center-b {
+            display: inline-table;
+            margin-right: auto;
+            margin-left: auto;
+            background-color: green;
+            text-align: center;
+
+        }
+    </style>
+
 </head>
 <body>
 
-<div class="container">
+<div class="container center-b">
     <h1 id="heading">Hello There!</h1>
 
-    <div id="movie-list-container">
+    <div id="movie-list-container" >
 
         <p id="loading"></p>
 
-        <table id="movie-list">
+        <table id="movie-list" class="center-b">
 
         </table>
     </div>
 
 
-        <form method="post" action='' id="new-movie-form">
-            <input type="text" id="title">
-            <select name="rating" id="rating">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-            <button type="button" id="sub">add movie</button>
-        </form>
+    <form method="post" action='' id="new-movie-form">
+        <input type="text" id="title">
+        <select name="rating" id="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <button type="button" id="sub">add movie</button>
+    </form>
+
+
+    <!--delete form-->
+
+    <form action="" id="delete-form" hidden>
+        <select name="delete" id="delete-movie">
+        </select>
+        <button type="button" id="delete-this-movie" class="set-back-to-normal" hidden disabled>Delete This Movie
+        </button>
+    </form>
+
+
+    <button type="button" id="delete-a-movie">Delete a Movie</button>
 
 
 
 
-        <form action="" id="delete-form" hidden>
-            <select name="delete" id="delete-movie">
-            </select>
-            <button type="button" id="delete-this-movie" class="set-back-to-normal" hidden disabled>Delete This Movie
-            </button>
-        </form>
+<!--edit button that will fire function that unhides edit form with displayed  values -->
+
+    <button type="button" id="edit-button">Edit Movies</button>
+
+    <!--edit form to display values from json on table to be ready for edit-->
 
 
-        <button type="button" id="delete-a-movie">Delete a Movie</button>
+    <form action="" id="edit-form" hidden>
+        <select name="edit" id="edit-movie">
+        </select>
+        <button type="button" id="edit-this-movie" hidden disabled>Edit This Movie</button>
+    </form>
 
 
-        <form action="" id="edit-form" hidden>
-            <select name="edit" id="edit-movie">
-            </select>
-            <button type="button" id="edit-this-movie" hidden disabled>Edit This Movie</button>
-        </form>
 
 
-        <form id="edit-submit-form" hidden>
-            <span>Title:</span>
-            <input type="text" id="edit-title">
-            <span>Rating:</span>
-            <select id="edit-rating" name="Rating">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-            <button type="button" id="confirm-edit-button" class="set-back-to-normal" disabled>Confirm Edit</button>
-        </form>
 
 
-        <button type="button" id="edit-another" hidden>Edit a Different Movie</button>
-        <button type="button" id="edit-button">Edit Movies</button>
 
 
-    </div>
+
+
+
+    <!--edit form to confirm and submit edit-->
+    <form id="edit-submit-form" hidden>
+        <span>Title:</span>
+        <input type="text" id="edit-title">
+        <span>Rating:</span>
+        <select id="edit-rating" name="Rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <button type="button" id="confirm-edit-button" class="set-back-to-normal" disabled>Confirm Edit</button>
+    </form>
+
+
+
+
+
+    <button type="button" id="edit-another" hidden>Edit a Different Movie</button>
+
+
+</div>
+<script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+<script
+        src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+        crossorigin="anonymous"></script>
 
 
 <script src="/main.js"></script>
